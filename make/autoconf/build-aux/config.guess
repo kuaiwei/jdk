@@ -68,13 +68,13 @@ if test $? = 0; then
 fi
 
 # Test and fix wsl
-echo $OUT | grep '\(unknown\|pc\)-linux-gnu' > /dev/null 2> /dev/null
-if test $? = 0; then
-  uname -r | grep -i microsoft > /dev/null 2> /dev/null
-  if test $? = 0; then
-    OUT=`echo $OUT | sed -e 's/\(unknown\|pc\)-linux-gnu/pc-wsl/'`
-  fi
-fi
+#echo $OUT | grep '\(unknown\|pc\)-linux-gnu' > /dev/null 2> /dev/null
+#if test $? = 0; then
+#  uname -r | grep -i microsoft > /dev/null 2> /dev/null
+#  if test $? = 0; then
+#    OUT=`echo $OUT | sed -e 's/\(unknown\|pc\)-linux-gnu/pc-wsl/'`
+#  fi
+#fi
 
 # Test and fix architecture string on AIX
 # On AIX 'config.guess' returns 'powerpc' as architecture but 'powerpc' is
