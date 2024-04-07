@@ -2685,9 +2685,6 @@ void ArchDesc::defineEmit(FILE* fp, InstructForm& inst) {
     return;
   }
 
-  // Save current instruction's starting address (helps with relocation).
-  fprintf(fp, "  cbuf.set_insts_mark();\n");
-
   // For MachConstantNodes which are ideal jump nodes, fill the jump table.
   if (inst.is_mach_constant() && inst.is_ideal_jump()) {
     fprintf(fp, "  ra_->C->output()->constant_table().fill_jump_table(cbuf, (MachConstantNode*) this, _index2label);\n");
