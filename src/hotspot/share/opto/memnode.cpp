@@ -2994,10 +2994,12 @@ bool MergePrimitiveStores::is_adjacent_input_pair(const Node* n1, const Node* n2
   if (_value_order == DataOrder::Unknown) {
     if (shift_n1 < shift_n2) {
       _value_order = DataOrder::Forward;
+#ifdef VM_LITTLE_ENDIAN
     } else if (memory_size == 1 &&
                Matcher::match_rule_supported(Op_ReverseBytesI) &&
                Matcher::match_rule_supported(Op_ReverseBytesL)) {
       _value_order = DataOrder::Reverse;  // only support reverse bytes
+#endif
     } else {
       return false;
     }
