@@ -112,6 +112,7 @@ public class IREncodingPrinter {
         "rvv",
         "zbkb",
         "zfh",
+        "zbb",
         "zvbb",
         "zvfh"
     ));
