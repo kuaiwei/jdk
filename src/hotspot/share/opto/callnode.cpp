@@ -687,7 +687,8 @@ int JVMState::interpreter_frame_size() const {
     extra_args = 0;
     jvms = jvms->caller();
   }
-  return size + Deoptimization::last_frame_adjust(0, callee_locals) * BytesPerWord;
+  int total_size = size + Deoptimization::last_frame_adjust(0, callee_locals) * BytesPerWord;
+  return total_size;
 }
 
 // Compute receiver info for a compiled lambda form at call site.

@@ -531,13 +531,20 @@ int vframeArrayElement::on_stack_size(int callee_parameters,
   assert(method()->max_locals() == locals()->size(), "just checking");
   int locks = monitors() == nullptr ? 0 : monitors()->number_of_monitors();
   int temps = expressions()->size();
-  return Interpreter::size_activation(method()->max_stack(),
+  int size = Interpreter::size_activation(method()->max_stack(),
                                       temps + callee_parameters,
                                       popframe_extra_stack_expression_els,
                                       locks,
                                       callee_parameters,
                                       callee_locals,
                                       is_top_frame);
+  if (strstr(method()->name()->as_C_string(), "m1") != nullptr &&
+      strstr(method()->method_holder()->name()->as_C_string(), "TestStackBang") != nullptr) {
+    tty->print_cr("[TRACE] on_stack_size: method=%s.%s, max_stack=%d, max_locals=%d, temps=%d, callee_parameters=%d, callee_locals=%d, locks=%d, is_top_frame=%d, size=%d",
+                  method()->method_holder()->name()->as_C_string(), method()->name()->as_C_string(),
+                  method()->max_stack(), method()->max_locals(), temps, callee_parameters, callee_locals, locks, is_top_frame, size);
+  }
+  return size;
 }
 
 

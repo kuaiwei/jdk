@@ -610,6 +610,10 @@ Deoptimization::UnrollBlock* Deoptimization::fetch_unroll_info_helper(JavaThread
   guarantee(array->unextended_sp() == unpack_sp, "vframe_array_head must contain the vframeArray to unpack");
 
   int number_of_frames = array->frames();
+  if (number_of_frames > 0 && strstr(array->element(0)->method()->name()->as_C_string(), "m1") != nullptr &&
+      strstr(array->element(0)->method()->method_holder()->name()->as_C_string(), "TestStackBang") != nullptr) {
+    tty->print_cr("[TRACE] fetch_unroll_info: number_of_frames=%d", number_of_frames);
+  }
 
   // Compute the vframes' sizes.  Note that frame_sizes[] entries are ordered from outermost to innermost
   // virtual activation, which is the reverse of the elements in the vframes array.
@@ -672,15 +676,24 @@ Deoptimization::UnrollBlock* Deoptimization::fetch_unroll_info_helper(JavaThread
     // frame[number_of_frames - 1 ] = on_stack_size(youngest)
     // frame[number_of_frames - 2 ] = on_stack_size(sender(youngest))
     // frame[number_of_frames - 3 ] = on_stack_size(sender(sender(youngest)))
-    frame_sizes[number_of_frames - 1 - index] = BytesPerWord * array->element(index)->on_stack_size(callee_parameters,
+    int frame_size = BytesPerWord * array->element(index)->on_stack_size(callee_parameters,
                                                                                                     callee_locals,
                                                                                                     index == 0,
                                                                                                     popframe_extra_args);
+    frame_sizes[number_of_frames - 1 - index] = frame_size;
     // This pc doesn't have to be perfect just good enough to identify the frame
     // as interpreted so the skeleton frame will be walkable
     // The correct pc will be set when the skeleton frame is completely filled out
     // The final pc we store in the loop is wrong and will be overwritten below
     frame_pcs[number_of_frames - 1 - index ] = Interpreter::deopt_entry(vtos, 0) - frame::pc_return_offset;
+
+    if (strstr(array->element(index)->method()->name()->as_C_string(), "m1") != nullptr &&
+        strstr(array->element(index)->method()->method_holder()->name()->as_C_string(), "TestStackBang") != nullptr) {
+      tty->print_cr("[TRACE] fetch_unroll_info: frame[%d] method=%s.%s, frame_size=%d, callee_parameters=%d, callee_locals=%d, popframe_extra_args=%d",
+                    index, array->element(index)->method()->method_holder()->name()->as_C_string(),
+                    array->element(index)->method()->name()->as_C_string(),
+                    frame_size, callee_parameters, callee_locals, popframe_extra_args);
+    }
 
     callee_parameters = array->element(index)->method()->size_of_parameters();
     callee_locals = array->element(index)->method()->max_locals();

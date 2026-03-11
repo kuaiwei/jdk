@@ -234,7 +234,11 @@ bool PosixSignals::pd_hotspot_signal_handler(int sig, siginfo_t* info,
       // check if fault address is within thread stack
       if (thread->is_in_full_stack(addr)) {
         // stack overflow
+        static int so_count = 0;
+        so_count++;
+        tty->print_cr("[TRACE] os_linux_x86: stack overflow #%d detected at addr=" INTPTR_FORMAT ", pc=" INTPTR_FORMAT, so_count, p2i(addr), p2i(pc));
         if (os::Posix::handle_stack_overflow(thread, addr, pc, uc, &stub)) {
+          tty->print_cr("[TRACE] os_linux_x86: stack overflow #%d handled, stub=" INTPTR_FORMAT, so_count, p2i(stub));
           return true; // continue
         }
       }

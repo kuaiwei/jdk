@@ -145,13 +145,11 @@ UncommonTrapBlob* OptoRuntime::generate_uncommon_trap_blob() {
   // restore rbp before stack bang because if stack overflow is thrown it needs to be pushed (and preserved)
   __ movptr(rbp, Address(rdi, Deoptimization::UnrollBlock::initial_info_offset()));
 
-#ifdef ASSERT
   // Compilers generate code that bang the stack by as much as the
   // interpreter would need. So this stack banging should never
   // trigger a fault. Verify that it does not on non product builds.
   __ movl(rbx, Address(rdi ,Deoptimization::UnrollBlock::total_frame_sizes_offset()));
   __ bang_stack_size(rbx, rcx);
-#endif
 
   // Load address of array of frame pcs into rcx (address*)
   __ movptr(rcx, Address(rdi, Deoptimization::UnrollBlock::frame_pcs_offset()));
