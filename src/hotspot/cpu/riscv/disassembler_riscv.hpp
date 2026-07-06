@@ -32,7 +32,22 @@ static int pd_instruction_alignment() {
 }
 
 static const char* pd_cpu_opts() {
-  return "";
+  return "isa=rv64gcv"
+         "_zba_zbb_zbc_zbs"
+         "_zbkb_zbkc_zbkx_zknd_zkne_zknh_zksed_zksh_zkt"
+         "_zicboz_zicbom_zicbop"
+         "_zihintpause_zihintntl"
+         "_zfhmin_zfa_zfbfmin"
+         "_zicond"
+         "_zicntr_zihpm"
+         "_zvbb_zvbc_zvfbfmin_zvfbfwma_zvfh_zvfhmin"
+         "_zvkb_zvkg_zvkned_zvknhb_zvksed_zvksh_zvkt"
+         "_zca_zcd"
+         "_xtheadba_xtheadbb_xtheadbs_xtheadcmo"
+         "_xtheadcondmov_xtheadfmemidx_xtheadfmv"
+         "_xtheadint_xtheadmac_xtheadmemidx_xtheadmempair"
+         "_xtheadsync"
+         "_zabha_zacas_zawrs";
 }
 
 // special-case instruction decoding.
