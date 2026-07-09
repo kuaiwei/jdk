@@ -91,7 +91,7 @@ struct hsdis_app_data {
   struct disassemble_info dinfo; /* the actual struct! */
 
   char mach_option[64];
-  char insn_options[256];
+  char insn_options[1024];
 };
 
 static void* decode(struct hsdis_app_data* app_data, const char* options);

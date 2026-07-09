@@ -47,7 +47,8 @@ static const char* pd_cpu_opts() {
          "_xtheadcondmov_xtheadfmemidx_xtheadfmv"
          "_xtheadint_xtheadmac_xtheadmemidx_xtheadmempair"
          "_xtheadsync"
-         "_zabha_zacas_zawrs";
+         "_zabha_zacas_zawrs"
+         ",no-aliases";
 }
 
 // special-case instruction decoding.
