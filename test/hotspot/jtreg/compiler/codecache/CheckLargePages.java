@@ -76,8 +76,8 @@ public class CheckLargePages {
         ProcessBuilder pb = ProcessTools.createLimitedTestJavaProcessBuilder(
                 "-XX:+UseLargePages",
                 "-XX:+SegmentedCodeCache",
-                "-XX:InitialCodeCacheSize=2g",
-                "-XX:ReservedCodeCacheSize=2g",
+                "-XX:InitialCodeCacheSize=1900m",
+                "-XX:ReservedCodeCacheSize=1900m",
                 "-XX:LargePageSizeInBytes=1g",
                 "-Xlog:pagesize=info",
                 "-version");
