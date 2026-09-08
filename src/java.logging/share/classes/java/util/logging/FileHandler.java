@@ -495,10 +495,10 @@ public class FileHandler extends StreamHandler {
                         // The lock file might be still pending deletion from a previous run
                         // (temporary), or the parent directory might not be accessible,
                         // not writable, etc..
-                        // If we can write to the current directory, and this is a regular file,
-                        // let's try again.
-                        if (Files.isRegularFile(lockFilePath, LinkOption.NOFOLLOW_LINKS)
-                            && isParentWritable(lockFilePath)) {
+                        // If we can write to the current directory, let's try again.
+                        // The file may be pending deletion, in which case it is not
+                        // necessarily visible as a regular file.
+                        if (isParentWritable(lockFilePath)) {
                             // Try again. If it doesn't work, then this will
                             // eventually ensure that we increment "unique" and
                             // use another file name.
